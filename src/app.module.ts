@@ -7,6 +7,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user/user.entity';
 import { AuthModule } from './auth/auth.module';
 import { ProfileModule } from './profile/profile.module';
+import { VideoController } from './video/video.controller';
+import { Video } from './video/video';
+import { VideoModule } from './video/video.module';
 
 @Module({
   imports: [UserModule,
@@ -22,8 +25,9 @@ import { ProfileModule } from './profile/profile.module';
     }),
     AuthModule,
     ProfileModule,
+    VideoModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, VideoController],
+  providers: [AppService, Video],
 })
 export class AppModule { }
