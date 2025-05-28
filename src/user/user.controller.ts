@@ -15,8 +15,8 @@ export class UserController {
         return this.userService.getAllUsers();
     }
 
-    @UseGuards(AuthGuard('jwt'))
-    @Post()
+    
+    @Post('/signUp')
     createUser(@Body() createUserDTO : CreateUserDTO){
         return this.userService.createUser(createUserDTO);
     }

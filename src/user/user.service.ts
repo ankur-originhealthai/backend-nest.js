@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserDTO } from './createUserDTO';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
-import { Repository } from 'typeorm';
+import { QueryFailedError, Repository } from 'typeorm';
 import { UpdateUserDTO } from './updateUserDTO';
 import * as bcrypt from 'bcrypt'
 
@@ -19,10 +19,18 @@ export class UserService{
     }
 
     async createUser(createUserDTO : CreateUserDTO) {
-        const saltRounds = 10;
+        try{
+            const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(createUserDTO.password, saltRounds)
         const newUserData = {...createUserDTO, password : hashedPassword}
         return await this.usersRepository.save(newUserData)
+        }
+        catch(err){
+            if(err instanceof QueryFailedError && (err as any).code === '23505'){
+                throw new BadRequestException("User Already exist with this email")
+            }
+            throw err
+        }
     }
 
     getUserById(userId : number) {

@@ -19,7 +19,8 @@ export class CreateUserDTO {
 
     @IsStrongPassword()
     password: string
- 
+    
+    @IsOptional()
     @IsString()
     disease: string
 
