@@ -28,7 +28,8 @@ export class AuthController {
       res.cookie('token', token.access_token, {
         httpOnly: true,
         sameSite: 'lax',
-        secure: false
+        secure: false,
+        expires: new Date(Date.now() + 60 * 60 * 1000)
       });
 
       return res.json({

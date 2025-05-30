@@ -10,6 +10,8 @@ import { ProfileModule } from './profile/profile.module';
 import { VideoController } from './video/video.controller';
 import { Video } from './video/video';
 import { VideoModule } from './video/video.module';
+import { PatientModule } from './patient/patient.module';
+import { Patient } from './patient/patient.entity';
 
 @Module({
   imports: [UserModule,
@@ -20,12 +22,13 @@ import { VideoModule } from './video/video.module';
       username: 'postgres',
       password: 'postgres',
       database: 'postgres',
-      entities: [User],
+      entities: [User, Patient],
       synchronize: true,
     }),
     AuthModule,
     ProfileModule,
     VideoModule,
+    PatientModule,
   ],
   controllers: [AppController, VideoController],
   providers: [AppService, Video],
