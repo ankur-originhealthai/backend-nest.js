@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn, Unique } from "typeorm";
+import { Patient } from "src/patient/patient.entity";
+import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn, Unique } from "typeorm";
 
 @Entity()
 @Unique(['emailId'])
@@ -20,5 +21,8 @@ export class User{
 
   @Column({type: 'varchar', default : 'None'})
   disease : string
+
+  @OneToMany(() => Patient, (patient) => patient.user)
+  patients: Patient[];
 }
  
