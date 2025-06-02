@@ -10,6 +10,10 @@ import {
   Unique,
 } from 'typeorm';
 
+/**
+ * Patient's table column and there data types.
+ */
+
 @Entity()
 @Unique(['patientId'])
 

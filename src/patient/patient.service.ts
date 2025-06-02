@@ -6,12 +6,20 @@ import { QueryFailedError, Repository } from 'typeorm';
 import { Patient } from './patient.entity';
 import { CreatePatientDTO } from './createPatientDTO';
 
+/** This is a Patient Service component that provides the busines logic to our patient component
+ *  It has functions such as 
+ *  getAllPatient --> get the data of all patients for a particular doctor
+ *  createPatient --> register a new patient in db for ultrasound
+ *  getPatientById --> get the data of a patient by its patientId
+ *  attachVideo --> save the location of ultrasound video of a patient
+ */ 
+
 @Injectable()
 export class PatientService {
   constructor(
     @InjectRepository(Patient)
     private patientRepository: Repository<Patient>,
-  ) {}
+  ) {} /** Dependency Injection of patientRepository */ 
 
   async getAllPatient(userId: number): Promise<Patient[] | null> {
     return await this.patientRepository.find({

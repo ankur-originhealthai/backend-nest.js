@@ -11,6 +11,13 @@ import { AuthGuard } from '@nestjs/passport';
 import { PatientService } from './patient.service';
 import { CreatePatientDTO } from './createPatientDTO';
 
+/** This is a Patient Controller component that serves the request for patient's api
+ * It serves the request for 
+ * /patient --> To get all the patients for a particular doctor
+ * patient/:patientId/  --> To get a patient id by there patientId
+ * /patientData --> Add new patient to the database
+ * All these routes are secured via jwt strategy
+ */
 
 @Controller('patient')
 export class PatientController {
