@@ -13,6 +13,12 @@ import { VideoModule } from './video/video.module';
 import { PatientModule } from './patient/patient.module';
 import { Patient } from './patient/patient.entity';
 
+
+/** This is a app Module component that wraps up all the components of whole app
+ *  It imports TypeORM Module, UserModule, AuthModule, VideoModule and PatientModule
+ * 
+ */ 
+
 @Module({
   imports: [UserModule,
     TypeOrmModule.forRoot({
