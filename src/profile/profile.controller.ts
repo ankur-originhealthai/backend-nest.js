@@ -3,6 +3,11 @@ import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
 import { UserService } from 'src/user/user.service';
 
+/** This is a Profile Controller component that serves the request for profile api
+ * It serves the request for 
+ * /profile --> It returns the data of logged in user
+ */
+
 class User{
     userId : number
 }
