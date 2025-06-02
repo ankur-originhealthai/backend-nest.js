@@ -1,6 +1,9 @@
 
 import { IsNumber, IsNotEmpty, IsString, IsEmail, IsOptional, isStrongPassword, isPhoneNumber, IsStrongPassword } from 'class-validator';
 
+/** This is a Data Transfer Object for User's data 
+ */ 
+
 export class CreateUserDTO {
     @IsNumber()
     @IsOptional()

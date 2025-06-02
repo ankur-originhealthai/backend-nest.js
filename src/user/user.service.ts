@@ -6,6 +6,16 @@ import { QueryFailedError, Repository } from 'typeorm';
 import { UpdateUserDTO } from './updateUserDTO';
 import * as bcrypt from 'bcrypt'
 
+
+/** This is a User Service component that provides the busines logic to our user component
+ *  It has functions such as 
+ *  getAllUser --> get the data of all users 
+ *  createUser --> register a new user in db
+ *  getuserById --> get the data of a user by its userId
+ *  updateuserById --> update the data of a user by its userId
+ *  deleteuserById --> get the data of a patient by its userId
+ *  findByEmailId --> find the data of user through there emailId, this function is used in authService for Login functionality
+ */ 
 @Injectable()
 export class UserService{
     constructor(

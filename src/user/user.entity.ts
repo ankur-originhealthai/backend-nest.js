@@ -1,6 +1,10 @@
 import { Patient } from "src/patient/patient.entity";
 import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn, Unique } from "typeorm";
 
+/**
+ * user's table column and there data types.
+ */
+
 @Entity()
 @Unique(['emailId'])
 export class User{

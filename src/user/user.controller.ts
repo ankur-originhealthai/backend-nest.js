@@ -5,6 +5,16 @@ import { UpdateUserDTO } from './updateUserDTO';
 import { AuthGuard } from '@nestjs/passport';
 
 
+/** This is a Patient Controller component that serves the request for patient's api
+ * It serves the request for 
+ * /user --> To get all the users
+ * /user/signUp --> To reguster a new user
+ * get user/:userId/  --> To get a user by there userId
+ * patch user/:userId/  --> To update the user data
+ * delete  user/:userId/  --> To delete the user data from db
+ * All these routes are secured via jwt strategy
+ */
+
 @Controller('user')
 export class UserController {
     constructor (private userService : UserService) {}
