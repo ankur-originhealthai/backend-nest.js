@@ -9,6 +9,12 @@ import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
 import { JwtStrategy } from './jwt.strategy';
 
+
+/** This is a Auth Module component that wraps up all the components of auth component 
+ *  It imports userModule and Passport Module for authentication
+ * It exports the authService, JwtStrategy to provide authentication to other routes.
+ */ 
+
 @Module({
   controllers: [AuthController],
   imports: [forwardRef(() => UserModule), PassportModule,

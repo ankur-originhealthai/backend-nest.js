@@ -1,10 +1,11 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Res, UseGuards } from '@nestjs/common';
 import { join } from 'path';
 import { Response } from 'express';
 import * as ffmpeg from 'fluent-ffmpeg';
 
 import { existsSync, mkdirSync } from 'fs';
 import { PatientService } from 'src/patient/patient.service';
+import { AuthGuard } from '@nestjs/passport';
 const ffmpegInstaller = require('@ffmpeg-installer/ffmpeg');
 ffmpeg.setFfmpegPath(ffmpegInstaller.path);
 
@@ -12,12 +13,14 @@ ffmpeg.setFfmpegPath(ffmpegInstaller.path);
 export class VideoController {
   constructor(private patientService: PatientService) {}
 
+  @UseGuards(AuthGuard('jwt'))
   @Get('/stream')
   async getStream(@Res() res: Response) {
     const path = join(__dirname, '..', '..', 'videos', 'ultrasound.mp4');
     res.sendFile(path);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Post('/record')
   async record(
     @Body() body : {patientId: number},

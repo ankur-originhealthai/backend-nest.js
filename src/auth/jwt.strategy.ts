@@ -4,6 +4,11 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { jwtConstants } from './constants';
 import { Request } from 'express';
+
+
+/** This is a jwt strategy component that extracts the token 
+ * from cookies and validate the user
+ */ 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   

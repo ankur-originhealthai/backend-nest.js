@@ -17,7 +17,6 @@ export class ProfileController {
     const {userId} = req.user as User
     const userData = await this.userService.getUserById(userId)
     return {
-      message: 'Protected profile route',
       user: userData,  
     };
 }

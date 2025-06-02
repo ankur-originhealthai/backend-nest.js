@@ -12,6 +12,12 @@ import { UserService } from 'src/user/user.service';
 import { AuthGuard } from '@nestjs/passport';
 import { Response } from 'express';
 
+/** This is a Auth Controller component that serves the request for login and logout 
+ * It uses local strategy with passport to generate a jwt token that provides the authentication to a user.
+ * The Token is stored in cookies using res.cookies.
+ * It serves the request for /auth/login and /auth/logout
+ */
+
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) { }

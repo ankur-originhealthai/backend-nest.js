@@ -4,6 +4,11 @@ import { LoginDTO } from './loginDTO';
 import * as bcrypt from 'bcrypt'
 import { JwtService } from '@nestjs/jwt';
 
+
+/** This is a Auth Service component that provides the busines logic to our auth component
+ *  It has functions such as validateUser and login to find the user and use jwt service to generate the auth token
+ */ 
+
 @Injectable()
 export class AuthService {
     constructor(private userService: UserService,
