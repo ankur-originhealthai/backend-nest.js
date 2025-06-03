@@ -1,5 +1,5 @@
 
-import { IsNumber, IsNotEmpty, IsString, IsEmail, IsOptional, isStrongPassword, isPhoneNumber, IsStrongPassword } from 'class-validator';
+import { IsNumber, IsNotEmpty, IsString, IsEmail, IsOptional, isStrongPassword, isPhoneNumber, IsStrongPassword, MaxLength, MinLength } from 'class-validator';
 
 
 /** This is a Data Transfer Object for Patient's data 
@@ -12,10 +12,14 @@ export class CreatePatientDTO {
 
     @IsNotEmpty()
     @IsString()
+    @MinLength(3)
+    @MaxLength(20)
     firstName: string;
 
     @IsNotEmpty()
     @IsString()
+    @MinLength(3)
+    @MaxLength(20)
     lastName: string;
 
     @IsOptional()
@@ -27,6 +31,8 @@ export class CreatePatientDTO {
 
     @IsOptional()
     @IsString()
+    @MinLength(3)
+    @MaxLength(20)
     ultrasound_video: string;
 
 
