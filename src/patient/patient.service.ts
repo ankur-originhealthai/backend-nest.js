@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { QueryFailedError, Repository } from 'typeorm';
 import { Patient } from './patient.entity';
 import { CreatePatientDTO } from './createPatientDTO';
+import { Exam } from 'src/exam/exam.entity';
 
 /** This is a Patient Service component that provides the busines logic to our patient component
  *  It has functions such as 
@@ -19,6 +20,8 @@ export class PatientService {
   constructor(
     @InjectRepository(Patient)
     private patientRepository: Repository<Patient>,
+    @InjectRepository(Exam)
+    private examRepository: Repository<Exam>,
   ) {} /** Dependency Injection of patientRepository */ 
 
   async getAllPatient(userId: number): Promise<Patient[] | null> {
@@ -29,11 +32,15 @@ export class PatientService {
 
   async createPatient(createPatientDTO: CreatePatientDTO) {
     try {
-        const existing = await this.patientRepository.findOne({where : {patientId : createPatientDTO.patientId}})
-        if (existing){
-            throw new ConflictException ('Patient Already exist with this Id');
+        let patient = await this.patientRepository.findOne({where : {patientId : createPatientDTO.patientId}})
+        if (!patient){
+            patient = await this.patientRepository.save(createPatientDTO);
         }
-      return await this.patientRepository.save(createPatientDTO);
+        const patientId = patient.patientId
+
+        const exam = this.examRepository.create({patientId})
+        await this.examRepository.save(exam);
+      return {examId : exam.examId};
     } catch (err) {
       if (err instanceof QueryFailedError && (err as any).code === '23505') {
         throw new BadRequestException('Patient Already exist with this Id');
@@ -46,13 +53,4 @@ export class PatientService {
     return this.patientRepository.findOneBy({ patientId });
   }
 
-  async attachVideo(patientId: number, fileName :string){
-    const patient = await this.patientRepository.findOneBy({ patientId });
-    if(!patient){
-        throw new BadRequestException ("Patient not found")
-    }
-    patient.ultrasound_video_path = `/videos/${fileName}`
-    return await this.patientRepository.save(patient)
-
-  }
 }

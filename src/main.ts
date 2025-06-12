@@ -9,7 +9,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(cookieParser()) //cookie parser to store the token in the cookies 
   app.enableCors({
-      origin: 'http://localhost:3000', //allow the access of api in localhost:3000
+      origin: 'http://localhost:3003', //allow the access of api in localhost:3002
       credentials: true,
     });
   app.useGlobalPipes(

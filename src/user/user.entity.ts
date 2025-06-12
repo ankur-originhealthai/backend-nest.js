@@ -1,5 +1,5 @@
 import { Patient } from "src/patient/patient.entity";
-import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn, Unique } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
 
 /**
  * user's table column and there data types.
@@ -28,5 +28,13 @@ export class User{
 
   @OneToMany(() => Patient, (patient) => patient.user)
   patients: Patient[];
+
+  @CreateDateColumn()
+    created_at: Date;
+  
+    @UpdateDateColumn()
+    updated_at: Date;
+
+  
 }
  

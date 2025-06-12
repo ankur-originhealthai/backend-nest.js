@@ -5,6 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from 'src/auth/auth.module';
 import { Patient } from './patient.entity.js';
 import { PatientService } from './patient.service';
+import { Exam } from 'src/exam/exam.entity';
+import { Recordings } from 'src/recording/recording.entity';
 
 
 
@@ -16,7 +18,7 @@ import { PatientService } from './patient.service';
 @Module({
   providers: [PatientService],
   controllers: [PatientController],
-  imports: [TypeOrmModule.forFeature([Patient]), AuthModule],
+  imports: [TypeOrmModule.forFeature([Patient, Exam, Recordings]), AuthModule],
   exports: [PatientService]
 })
 export class PatientModule {}

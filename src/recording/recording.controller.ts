@@ -6,6 +6,7 @@ import * as ffmpeg from 'fluent-ffmpeg';
 import { existsSync, mkdirSync } from 'fs';
 import { PatientService } from 'src/patient/patient.service';
 import { AuthGuard } from '@nestjs/passport';
+import { RecordingService } from './recording.service';
 const ffmpegInstaller = require('@ffmpeg-installer/ffmpeg');
 ffmpeg.setFfmpegPath(ffmpegInstaller.path);
 
@@ -17,12 +18,12 @@ ffmpeg.setFfmpegPath(ffmpegInstaller.path);
  * All these routes are secured via jwt strategy
  */
 
-@Controller('video')
-export class VideoController {
-  constructor(private patientService: PatientService) {}
+@Controller('stream')
+export class RecordingController {
+  constructor(private recordingService : RecordingService) {}
 
   @UseGuards(AuthGuard('jwt'))
-  @Get('/stream')
+  @Get('/video')
   async getStream(@Res() res: Response) {
     const path = join(__dirname, '..', '..', 'videos', 'ultrasound.mp4');
     res.sendFile(path);
@@ -31,11 +32,13 @@ export class VideoController {
   @UseGuards(AuthGuard('jwt'))
   @Post('/record')
   async record(
-    @Body() body : {patientId: number},
+    @Body() body : {patientId: number, timeStamp: number, examId: number},
     @Res() res: Response,
   ) {
-    const {patientId} = body
-    const fileName = `patient-${patientId}.mp4`;
+    const {patientId, timeStamp, examId} = body
+    //const patientAlreadyExist = await this.patientService.getPatientById(patientId);
+
+    const fileName = `patient-${patientId}-${examId}-${timeStamp}.mp4`;
     const inputPath = join(__dirname, '..', '..', 'videos', 'ultrasound.mp4');
     const outputFolder = join(__dirname, '..', '..', 'videos');
     const outputPath = join(outputFolder, fileName)
@@ -43,16 +46,17 @@ export class VideoController {
     if (!existsSync(outputFolder)) {
       mkdirSync(outputFolder);
     }
+
     ffmpeg(inputPath)
-      .setStartTime(0)
+      .setStartTime(timeStamp)
       .duration(5)
       .output(outputPath)
-      .on('start', (cmdLine) => {
-        console.log('Started ffmpeg with command:', cmdLine);
+      .on('start', () => {
+        console.log('Started at ', timeStamp);
       })
       .on('end', async () => {
         console.log('Recording complete');
-        await this.patientService.attachVideo(patientId, fileName);
+        await this.recordingService.attachVideo(patientId, fileName, timeStamp);
         res.json({message: "Recording Saved",fileName, videoUrl: "http://localhost:3001/videos/" + fileName})
         
       })
@@ -61,8 +65,25 @@ export class VideoController {
         res.status(500).send('Recording failed');
       })
       .run();
-    
-
-    
   }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Post('/recordedVideos')
+  getAllVideos(@Body() body: {patientId: number, examId: number}){
+    const {patientId, examId} = body
+    return this.recordingService.getAllRecordings(patientId, examId)
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Post('/remove')
+  deleteRecording(@Body() body: {recordingId: number}){
+    const {recordingId} = body
+    return this.recordingService.deleteRecording(recordingId)
+  }
+
+
+  
+
+
+
 }

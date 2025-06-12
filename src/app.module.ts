@@ -7,11 +7,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user/user.entity';
 import { AuthModule } from './auth/auth.module';
 import { ProfileModule } from './profile/profile.module';
-import { VideoController } from './video/video.controller';
-import { Video } from './video/video';
-import { VideoModule } from './video/video.module';
 import { PatientModule } from './patient/patient.module';
 import { Patient } from './patient/patient.entity';
+import { RecordingModule } from './recording/recording.module';
+import { Recordings } from './recording/recording.entity';
+import { Exam } from './exam/exam.entity';
+
 
 
 /** This is a app Module component that wraps up all the components of whole app
@@ -28,15 +29,15 @@ import { Patient } from './patient/patient.entity';
       username: 'postgres',
       password: 'postgres',
       database: 'postgres',
-      entities: [User, Patient],
+      entities: [User, Patient, Recordings, Exam],
       synchronize: true,
     }),
     AuthModule,
     ProfileModule,
-    VideoModule,
     PatientModule,
+    RecordingModule,
   ],
-  controllers: [AppController, VideoController],
-  providers: [AppService, Video],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule { }
